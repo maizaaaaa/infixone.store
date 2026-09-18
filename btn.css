@@ -1,0 +1,6 @@
+/* Supplied CTA effect, scoped so it does not hijack every button on the site. */
+.fx-button{position:relative;isolation:isolate;overflow:hidden;min-width:150px;min-height:46px;border:0;border-radius:12px;cursor:pointer;font:800 10px/1 Inter,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#fff;background:#15151a;display:inline-flex;align-items:center;justify-content:center;transition:.25s;box-shadow:0 12px 35px rgba(139,92,246,.18)}
+.fx-button:before{content:"";position:absolute;inset:-60%;z-index:-2;background:conic-gradient(from 180deg,transparent 0 25%,#8b5cf6 36%,#22d3ee 43%,transparent 54% 100%);animation:fxspin 4s linear infinite}
+.fx-button:after{content:"";position:absolute;inset:1px;z-index:-1;border-radius:11px;background:linear-gradient(135deg,#8b5cf6,#6d3ee8)}
+.fx-button span{position:relative;z-index:2}.fx-button:hover{transform:translateY(-2px);box-shadow:0 16px 45px rgba(139,92,246,.28)}
+@keyframes fxspin{to{transform:rotate(360deg)}}

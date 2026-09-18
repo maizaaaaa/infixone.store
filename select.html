@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Select product — infixone.pk</title>
+  <link rel="stylesheet" href="css/btn.css">
+  <link rel="stylesheet" href="css/loading.css">
+  <link rel="stylesheet" href="css/maincard.css">
+  <link rel="stylesheet" href="css/order.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/site.css">
+  <style>
+    /* Selection page extras — matches dark site look */
+    .select-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .select-layout { grid-template-columns: 1fr; }
+    }
+    .select-art-card {
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0b0b0b;
+    }
+    .select-art-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      background: #111;
+    }
+    .select-art-body { padding: 18px 20px 22px; }
+    .select-art-body h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      letter-spacing: -0.8px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+    }
+    .select-art-body p { margin: 0; color: #9a9a9a; font-size: 13px; }
+
+    .type-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 520px) {
+      .type-choice-grid { grid-template-columns: 1fr; }
+    }
+    .type-choice-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+      text-align: left;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #2a2a2a;
+      background: #0b0b0b;
+      color: #f0f0f0;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .type-choice-btn:hover { border-color: #555; }
+    .type-choice-btn.active {
+      border-color: #cfcfcf;
+      background: #141414;
+    }
+    .type-icon { font-size: 22px; line-height: 1; }
+    .type-label { font-weight: 700; font-size: 14px; }
+    .type-sub { font-size: 11px; color: #8a8a8a; }
+
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+      min-height: 40px;
+    }
+    .package-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      background: #0b0b0b;
+      color: #eee;
+      cursor: pointer;
+      text-align: left;
+    }
+    .package-btn.active, .account-option.active {
+      border-color: #cfcfcf;
+      background: #151515;
+    }
+    .package-btn b { color: #fff; }
+
+    .account-option {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      background: #0b0b0b;
+      color: #eee;
+      cursor: pointer;
+      text-align: left;
+    }
+    .acc-thumb {
+      width: 64px; height: 64px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111;
+    }
+    .acc-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .acc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .acc-body strong { font-size: 13px; }
+    .acc-meta { font-size: 11px; color: #8a8a8a; }
+    .acc-features { font-size: 11px; color: #a0a0a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .acc-price { font-weight: 700; font-size: 13px; white-space: nowrap; }
+
+    .proceed-btn {
+      width: 100%;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 12px;
+      background: #f2f2f2;
+      color: #111;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .proceed-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .select-panel {
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      background: #0b0b0b;
+      padding: 20px;
+    }
+    .select-panel h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+    }
+    .select-panel .sub {
+      margin: 0 0 16px;
+      color: #9a9a9a;
+      font-size: 13px;
+    }
+    .empty { color: #888; font-size: 13px; padding: 12px 0; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #9a9a9a;
+    }
+    .back-link:hover { color: #fff; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <span class="brand-main">infixone.pk</span>
+      <span class="brand-sub">PLAY MORE. PAY LESS.</span>
+    </a>
+    <nav class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Store</a>
+      <a href="about.html">About us</a>
+    </nav>
+    <button class="menu" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="wrap" id="selectRoot">
+      <a class="back-link" href="shop.html">← Back to store</a>
+      <div class="select-layout">
+        <div class="select-art-card">
+          <img id="selectArt" src="" alt="">
+          <div class="select-art-body">
+            <h1 id="selectTitle">Game</h1>
+            <p id="selectMeta"></p>
+          </div>
+        </div>
+
+        <div class="select-panel">
+          <h2>What do you want?</h2>
+          <p class="sub">Choose currency or a full gaming account, then pick a package.</p>
+
+          <div class="type-choice-grid" id="typeChoice">
+            <!-- filled by JS -->
+          </div>
+
+          <div class="eyebrow" style="margin-bottom:8px;font-size:11px;letter-spacing:1px;color:#8a8a8a">OPTIONS</div>
+          <div class="option-list" id="optionList">
+            <p class="empty">Select a product type above.</p>
+          </div>
+
+          <button class="proceed-btn" id="proceedSelect" disabled>Proceed to checkout</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-row">
+    <div>
+      <div class="footer-brand">infixone.pk</div>
+      <p>Premium digital gaming marketplace.</p>
+    </div>
+    <div class="footer-links">
+      <a href="shop.html">Store</a>
+      <a href="about.html">About</a>
+    </div>
+    <p>© 2026 infixone.pk</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

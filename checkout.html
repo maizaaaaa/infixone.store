@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — infixone.pk</title>
+<meta name="description" content="Secure checkout for infixone.pk gaming marketplace.">
+
+<!-- Premium gaming typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#050505;
+  --surface:#0b0b0b;
+  --surface-2:#101010;
+  --surface-3:#151515;
+  --line:#2b2b2b;
+  --line-soft:#1b1b1b;
+  --text:#f5f5f5;
+  --muted:#9b9b9b;
+  --muted-2:#686868;
+  --white:#fff;
+  --success:#d9d9d9;
+  --radius:16px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -15%,rgba(255,255,255,.065),transparent 34%),
+    linear-gradient(180deg,#050505 0%,#070707 45%,#050505 100%);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;opacity:.18;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:linear-gradient(to bottom,#000,transparent 75%);
+}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+img{display:block;max-width:100%}
+
+.header{
+  height:92px;
+  border-bottom:1px solid #242424;
+  display:flex;align-items:center;gap:34px;
+  padding:0 clamp(20px,4vw,52px);
+  position:sticky;top:0;z-index:20;
+  background:rgba(5,5,5,.91);
+  backdrop-filter:blur(18px);
+}
+.logo{min-width:205px}
+.logo strong{
+  display:block;font-family:"Space Grotesk",sans-serif;
+  font-size:34px;line-height:.85;font-style:italic;
+  letter-spacing:-2px;
+}
+.logo span{
+  display:block;margin-top:8px;font-size:9px;
+  letter-spacing:2px;font-weight:600;color:#ddd;
+}
+.nav{display:flex;gap:8px;margin-left:auto}
+.nav a{
+  padding:11px 15px;border-radius:10px;color:#9d9d9d;
+  font-size:13px;font-weight:600;transition:.2s;
+}
+.nav a:hover,.nav a.active{background:#111;color:#fff}
+
+.page{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:46px 0 70px}
+.eyebrow{
+  color:#a9a9a9;text-transform:uppercase;letter-spacing:2.8px;
+  font-size:10px;font-weight:700;margin-bottom:12px;
+}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif}
+h1{font-size:clamp(34px,5vw,58px);letter-spacing:-2.8px;line-height:1}
+.subtitle{color:#8d8d8d;font-size:14px;margin-top:14px;line-height:1.6}
+
+.checkout-grid{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(330px,.72fr);
+  gap:22px;margin-top:38px;align-items:start;
+}
+.panel{
+  background:linear-gradient(145deg,#101010,#090909);
+  border:1px solid #292929;border-radius:20px;
+  box-shadow:0 20px 70px rgba(0,0,0,.25);
+}
+.panel-head{
+  padding:22px 24px;border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.panel-head h2{font-size:18px;letter-spacing:-.4px}
+.panel-body{padding:24px}
+
+.product-preview{
+  display:grid;grid-template-columns:170px 1fr;gap:18px;
+}
+.product-img{
+  width:170px;height:112px;object-fit:cover;border-radius:13px;
+  border:1px solid #333;background:#111;
+}
+.product-info h3{font-size:24px;letter-spacing:-1px;margin:3px 0 7px}
+.product-info p{font-size:12px;color:#858585;line-height:1.6}
+.badge{
+  display:inline-flex;border:1px solid #333;border-radius:999px;
+  padding:6px 9px;color:#bbb;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;
+}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+.field label{
+  font-size:10px;text-transform:uppercase;letter-spacing:1.4px;
+  color:#999;font-weight:700;
+}
+.field input,.field select{
+  width:100%;height:48px;padding:0 14px;border-radius:11px;
+  border:1px solid #303030;background:#0b0b0b;color:#f5f5f5;
+  outline:none;transition:.2s;
+}
+.field input::placeholder{color:#555}
+.field input:focus,.field select:focus{border-color:#777;box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+.field select{appearance:auto}
+
+.summary{
+  position:sticky;top:112px;
+}
+.summary-row{
+  display:flex;justify-content:space-between;gap:16px;
+  padding:12px 0;color:#a4a4a4;font-size:13px;
+  border-bottom:1px solid #171717;
+}
+.summary-row strong{color:#eee;font-weight:600}
+.total{
+  display:flex;align-items:end;justify-content:space-between;
+  padding:21px 0 4px;
+}
+.total span:first-child{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1.3px}
+.total strong{font-family:"Space Grotesk";font-size:30px;letter-spacing:-1px}
+
+.payment{
+  margin-top:18px;padding:18px;border-radius:14px;
+  background:#0e0e0e;border:1px solid #292929;
+}
+.payment-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.payment-top h3{font-size:15px}
+.payment-tag{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:#888}
+.payment-line{
+  display:flex;justify-content:space-between;gap:20px;
+  padding:9px 0;font-size:12px;border-bottom:1px solid #191919;
+}
+.payment-line:last-child{border:0}
+.payment-line span{color:#777}
+.payment-line b{color:#eee;text-align:right}
+
+.notice{
+  display:flex;gap:10px;margin-top:15px;padding:12px;
+  border:1px solid #222;border-radius:10px;color:#777;font-size:10px;line-height:1.55;
+}
+.notice i{
+  width:18px;height:18px;border:1px solid #555;border-radius:50%;
+  display:grid;place-items:center;color:#ddd;font-style:normal;flex:none;
+}
+
+.actions{display:grid;gap:10px;margin-top:20px}
+.btn{
+  min-height:50px;border-radius:11px;border:1px solid #444;
+  background:#f2f2f2;color:#070707;font-weight:800;
+  font-size:12px;letter-spacing:.2px;transition:.2s;
+}
+.btn:hover{background:#fff;transform:translateY(-1px)}
+.btn.secondary{background:#0c0c0c;color:#eee;border-color:#333}
+.btn.secondary:hover{background:#151515;border-color:#555}
+
+.status{
+  display:none;margin-top:16px;padding:13px;border:1px solid #333;
+  border-radius:11px;background:#0d0d0d;color:#bbb;font-size:11px;line-height:1.5;
+}
+.status.show{display:block}
+
+.footer{
+  border-top:1px solid #1e1e1e;padding:25px 0;margin-top:20px;
+  display:flex;justify-content:space-between;gap:15px;color:#666;font-size:10px;
+}
+
+.empty{
+  padding:70px 25px;text-align:center;display:none;
+}
+.empty h2{font-size:28px;margin-bottom:10px}
+.empty p{color:#777;font-size:13px;margin-bottom:20px}
+
+@media(max-width:850px){
+  .header{height:auto;min-height:78px;flex-wrap:wrap;gap:14px;padding:15px 20px}
+  .logo{min-width:auto}
+  .logo strong{font-size:28px}
+  .nav{width:100%;overflow:auto;margin-left:0;padding-bottom:2px}
+  .nav a{white-space:nowrap;padding:9px 12px}
+  .checkout-grid{grid-template-columns:1fr}
+  .summary{position:static}
+}
+@media(max-width:560px){
+  .page{width:min(100% - 24px,1180px);padding-top:30px}
+  .product-preview{grid-template-columns:1fr}
+  .product-img{width:100%;height:180px}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .panel-body,.panel-head{padding:18px}
+  .footer{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+<header class="header">
+  <a class="logo" href="index.html" aria-label="infixone.pk home">
+    <strong>infixone.pk</strong>
+    <span>PLAY MORE. PAY LESS.</span>
+  </a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Store</a>
+    <a href="about.html">About</a>
+    <a href="checkout.html" class="active">Checkout</a>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="eyebrow">Currency checkout</div>
+  <h1>Currency order.</h1>
+  <p class="subtitle">Confirm your in-game currency package, enter delivery details, and complete payment.</p>
+
+  <div id="emptyState" class="panel empty">
+    <h2>No product selected</h2>
+    <p>Choose a game or item from the store first.</p>
+    <a class="btn" style="display:inline-flex;align-items:center;justify-content:center;padding:0 22px" href="shop.html">Browse Store</a>
+  </div>
+
+  <div id="checkoutGrid" class="checkout-grid">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Order details</h2>
+        <span class="badge" id="orderBadge">INFX</span>
+      </div>
+      <div class="panel-body">
+        <div class="product-preview">
+          <img id="productImage" class="product-img" alt="">
+          <div class="product-info">
+            <span class="badge" id="categoryBadge">Gaming</span>
+            <h3 id="productName">Product</h3>
+            <p id="productMeta">Item details</p>
+          </div>
+        </div>
+
+        <div class="field full" style="margin-top:24px"><label for="gameSelect">Select game / product</label><select id="gameSelect"></select></div><div class="form-grid">
+          <div class="field">
+            <label for="customerName">Name</label>
+            <input id="customerName" autocomplete="name" placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="customerContact">WhatsApp / Phone</label>
+            <input id="customerContact" autocomplete="tel" placeholder="+92 ...">
+          </div>
+          <div class="field full">
+            <label for="accountId">Game UID / Account Email</label>
+            <input id="accountId" placeholder="Enter the ID or email needed for delivery">
+          </div>
+          <div class="field">
+            <label for="packageSelect">Package</label>
+            <select id="packageSelect"></select>
+          </div>
+          <div class="field">
+            <label for="deliveryType">Delivery type</label>
+            <select id="deliveryType">
+              <option>Digital delivery</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="notice">
+          <i>i</i>
+          <div>Double-check your game UID or account email before placing the order. Incorrect details can delay delivery.</div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel summary">
+      <div class="panel-head">
+        <h2>Order summary</h2>
+        <span class="payment-tag">Final step</span>
+      </div>
+      <div class="panel-body">
+        <div class="summary-row"><span>Product</span><strong id="sumProduct">—</strong></div>
+        <div class="summary-row"><span>Package</span><strong id="sumPackage">—</strong></div>
+        <div class="summary-row"><span>Delivery</span><strong id="sumDelivery">Digital</strong></div>
+
+        <div class="total">
+          <span>Total</span>
+          <strong id="sumTotal">PKR 0</strong>
+        </div>
+
+        <div class="payment">
+          <div class="payment-top">
+            <h3>SadaPay payment</h3>
+            <span class="payment-tag">Pay after review</span>
+          </div>
+          <div class="payment-line"><span>Number</span><b>03091847477</b></div>
+          <div class="payment-line"><span>Account name</span><b>Kashif Ahmad Khan</b></div>
+        </div>
+
+        <div class="actions">
+          <button id="whatsappBtn" class="btn" type="button">Confirm via WhatsApp</button>
+          <button id="copyBtn" class="btn secondary" type="button">Copy payment details</button>
+        </div>
+        <div id="status" class="status"></div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <span>© 2026 infixone.pk</span>
+    <span>Support: +92 335 045 3872</span>
+  </footer>
+</main>
+
+<script>
+const GAMES = [
+["Fortnite","Battle Royale","V-Bucks, Accounts, Crew",1200,"V-Bucks","https://cdn2.unrealengine.com/en-fn-og-42-10-c1sx-egs-launcher-blade-2560x1440-2560x1440-319ff81b274e.jpg"],
+["PUBG Mobile","Battle Royale","UC, Accounts",415,"UC","https://www.independentarabia.com/sites/default/files/thumbnails/image/2020/06/07/208186-2056759375.jpg"],
+["Call of Duty","Battle Royale","COD Points, Accounts",3600,"CP","https://vigiato.net/wp-content/uploads/2023/08/modern-warfare-3-mw2-dlc.jpg"],
+["Free Fire","Battle Royale","Diamonds, Accounts",120,"Diamonds","https://telegrafi.com/media-library/2022-02-garena-free-fire-jpg.jpg?coordinates=150%2C0%2C150%2C0&height=1500&id=57961205&width=2000"],
+["Valorant","Tactical","VP, Accounts",1200,"VP","https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/8f0df8efd5b986039cd37a4d5f3bf31b815d0c54-3840x2160.jpg"],
+["Genshin Impact","RPG & Open World","Genesis Crystals, Accounts",400,"Genesis Crystals","https://www.teyvatavern.com/cdn/shop/collections/genshin-impact-official-merch-945659.jpg?v=1739288877"],
+["GTA V Online","RPG & Open World","Accounts only",5000,"Account","https://p2.bahamut.com.tw/B/2KU/64/911515c004fa2a8d72009cee861fl845.JPG?v=1647400010929"],
+["Minecraft","Sandbox","Premium Accounts",1800,"Account","https://ethlan.fr/img/jeux/121.jpg"],
+["Roblox","Sandbox","Robux, Accounts",1400,"Robux","https://store-images.s-microsoft.com/image/apps.47252.13510798883386282.a1e5df65-8dd7-427c-9da9-506afa37b254.f4132380-deee-4518-8bbd-2a9b540046f3"],
+["Discord Nitro","Media & Utility","Subscriptions",450,"Nitro","https://img.tamindir.com/2023/11/253503/discord-nitro.jpg"],
+["Crunchyroll","Media & Utility","Premium",600,"Premium","https://i.blogs.es/2c137a/sin-titulo-2/840_560.jpeg"],
+["Marvel Rivals","Media & Utility","Units, Accounts",350,"Units","https://www.amd.com/content/dam/amd/en/images/games/marvel-rivals/3032700-marvel-rivals-screen-blk.jpg"]
+];
+const PACKAGES={
+"Fortnite":[["800 V-Bucks (Epic)",2400],["2,400 V-Bucks (Epic)",5500],["4,500 V-Bucks (Epic)",8500],["12,500 V-Bucks (Epic)",18500],["800 V-Bucks (Xbox)",2199],["2,400 V-Bucks (Xbox)",4599],["4,600 V-Bucks (Xbox)",5999],["12,500 V-Bucks (Xbox)",15500],["Fortnite Crew 1 Month (Epic)",1600],["Fortnite Crew 1 Month (Xbox)",1200]],
+"PUBG Mobile":[["60 UC",415],["235 UC",1633],["660 UC",3200],["1,800 UC",7700]],
+"Call of Duty":[["500 COD Points",3600],["2,400 COD Points",5200],["4,800 COD Points",9800],["9,600 COD Points",18500]],
+"Free Fire":[["70 Diamonds",120],["140 Diamonds",230],["355 Diamonds",525],["713 Diamonds",1050]],
+"Valorant":[["375 VP",1200],["475 VP",1600],["845 VP",2400],["1,000 VP",2700]],
+"Genshin Impact":[["60 Genesis Crystals",400],["330 Genesis Crystals",1400],["1,090 Genesis Crystals",3000],["2,240 Genesis Crystals",5200]],
+"GTA V Online":[],
+"Minecraft":[],
+"Roblox":[["400 Robux",1400],["800 Robux",2600],["1,700 Robux",4200]],
+"Discord Nitro":[["1 Month Nitro",450],["3 Months Nitro",1200],["1 Year Nitro",4200]],
+"Crunchyroll":[["1 Month Premium",600],["3 Months Premium",1600],["1 Year Premium",5000]],
+"Marvel Rivals":[["500 Units",350],["1,000 Units",650]]
+};
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const fmt=n=>Number(n||0).toLocaleString('en-PK');
+const slug=s=>String(s||'').toLowerCase().trim().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const gameSelect=document.getElementById('gameSelect');
+function findGame(v){return GAMES.find(g=>g[0].toLowerCase()===String(v||'').toLowerCase()||slug(g[0])===slug(v));}
+GAMES.forEach(g=>{const o=document.createElement('option');o.value=g[0];o.textContent=g[0];gameSelect.appendChild(o);});
+const params=new URLSearchParams(location.search);
+let selected=findGame(params.get('game')||params.get('product'))||GAMES[0];
+try{const saved=JSON.parse(localStorage.getItem('infixoneCheckout')||'null');if(!params.get('game')&&saved?.game){selected=findGame(saved.game)||selected;}}catch(e){}
+gameSelect.value=selected[0];
+const presetPack=params.get('pack')||'';
+const presetType=params.get('type')||'currency';
+let orderId='';
+function packages(g){return PACKAGES[g[0]]||[];}
+function render(){
+ const g=selected, list=packages(g);
+ document.getElementById('productName').textContent=g[0];
+ document.getElementById('productMeta').textContent=(presetPack||g[2]||'Digital gaming product')+' • Currency top-up';
+ document.getElementById('categoryBadge').textContent=g[1]||'Gaming';
+ orderId='INFX-'+Math.floor(100000+Math.random()*899999);document.getElementById('orderBadge').textContent=orderId;
+ const img=document.getElementById('productImage');img.src=g[5];img.alt=g[0];
+ const sel=document.getElementById('packageSelect');
+ let idx=0;
+ if(presetPack){const found=list.findIndex(x=>x[0]===presetPack);if(found>=0)idx=found;}
+ sel.innerHTML=list.map((x,i)=>`<option value="${x[1]}" ${i===idx?'selected':''}>${esc(x[0])} — PKR ${fmt(x[1])}</option>`).join('');
+ // Currency-focused: lock game when coming from select page
+ if(params.get('game')){
+   gameSelect.disabled=true;
+   const lab=gameSelect.closest('.field');
+   if(lab){const l=lab.querySelector('label');if(l)l.textContent='Game (selected)';}
+ }
+ if(presetPack){
+   // keep package selectable among currency packs, but pre-select the chosen one
+   const dt=document.getElementById('deliveryType');
+   if(dt){dt.value='Digital delivery';}
+ }
+ // If no currency packages, show message
+ if(!list.length){
+   sel.innerHTML='<option value="0">No currency packages — use Accounts instead</option>';
+ }
+ update();
+}
+function update(){const g=selected,list=packages(g),i=document.getElementById('packageSelect').selectedIndex,pack=list[i]||list[0];document.getElementById('sumProduct').textContent=g[0];document.getElementById('sumPackage').textContent=pack[0];document.getElementById('sumDelivery').textContent=document.getElementById('deliveryType').value;document.getElementById('sumTotal').textContent='PKR '+fmt(pack[1]);}
+function status(t){const e=document.getElementById('status');e.textContent=t;e.classList.add('show');}
+gameSelect.addEventListener('change',()=>{selected=findGame(gameSelect.value)||GAMES[0];history.replaceState({},'',`checkout.html?game=${encodeURIComponent(selected[0])}`);render();});
+document.getElementById('packageSelect').addEventListener('change',update);document.getElementById('deliveryType').addEventListener('change',update);
+document.getElementById('copyBtn').addEventListener('click',async()=>{const t='SadaPay: 03091847477\nAccount Name: Kashif Ahmad Khan';try{await navigator.clipboard.writeText(t);status('Payment details copied.')}catch(e){status(t)}});
+document.getElementById('whatsappBtn').addEventListener('click',()=>{const name=document.getElementById('customerName').value.trim(),contact=document.getElementById('customerContact').value.trim(),uid=document.getElementById('accountId').value.trim(),pack=packages(selected)[document.getElementById('packageSelect').selectedIndex]||packages(selected)[0];if(!name||!contact||!uid){status('Please complete your name, WhatsApp/phone, and game UID/account email first.');return;}localStorage.setItem('infixoneLastOrder',JSON.stringify({game:selected[0],package:pack[0],name,contact,accountId:uid,total:'PKR '+fmt(pack[1]),orderId}));const msg='NEW INFIXONE ORDER%0A%0AOrder: '+encodeURIComponent(orderId)+'%0AGame: '+encodeURIComponent(selected[0])+'%0APackage: '+encodeURIComponent(pack[0])+'%0ATotal: '+encodeURIComponent('PKR '+fmt(pack[1]))+'%0AName: '+encodeURIComponent(name)+'%0AContact: '+encodeURIComponent(contact)+'%0AUID / Account: '+encodeURIComponent(uid)+'%0A%0APayment: SadaPay 03091847477%0AAccount: Kashif Ahmad Khan';window.open('https://wa.me/923350453387?text='+msg,'_blank','noopener,noreferrer');});
+render();
+
+</script>
+</body>
+</html>s

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account — infixone.pk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#050505; --surface:#0b0b0b; --surface-2:#101010; --line:#2b2b2b;
+  --line-soft:#1b1b1b; --text:#f5f5f5; --muted:#9b9b9b; --muted-2:#686868;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at 50% -15%,rgba(255,255,255,.065),transparent 34%),linear-gradient(180deg,#050505 0%,#070707 45%,#050505 100%);
+  color:var(--text); font-family:Inter,Arial,sans-serif; -webkit-font-smoothing:antialiased;
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.18;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:linear-gradient(to bottom,#000,transparent 75%);
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+img{display:block;max-width:100%}
+
+.header{
+  height:92px; border-bottom:1px solid #242424;
+  display:flex; align-items:center; gap:34px;
+  padding:0 clamp(20px,4vw,52px);
+  position:sticky; top:0; z-index:20;
+  background:rgba(5,5,5,.91); backdrop-filter:blur(18px);
+}
+.logo{min-width:205px}
+.logo strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:34px;line-height:.85;font-style:italic;letter-spacing:-2px}
+.logo span{display:block;margin-top:8px;font-size:9px;letter-spacing:2px;font-weight:600;color:#ddd}
+.nav{display:flex;gap:8px;margin-left:auto}
+.nav a{padding:11px 15px;border-radius:10px;color:#9d9d9d;font-size:13px;font-weight:600;transition:.2s}
+.nav a:hover,.nav a.active{background:#111;color:#fff}
+
+.page{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:40px 0 70px}
+.back{display:inline-block;font-size:12px;color:#9a9a9a;margin-bottom:18px}
+.back:hover{color:#fff}
+.eyebrow{color:#a9a9a9;text-transform:uppercase;letter-spacing:2.8px;font-size:10px;font-weight:700;margin-bottom:12px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif}
+h1{font-size:clamp(28px,4vw,44px);letter-spacing:-1.8px;line-height:1.05;margin-bottom:8px}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(320px,.75fr);
+  gap:22px; margin-top:28px; align-items:start;
+}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+
+.panel{
+  background:linear-gradient(145deg,#101010,#090909);
+  border:1px solid #292929; border-radius:20px;
+  box-shadow:0 20px 70px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.panel-head{
+  padding:18px 22px; border-bottom:1px solid var(--line-soft);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.panel-head h2{font-size:16px;font-weight:600}
+.panel-body{padding:22px}
+
+.hero-img{
+  width:100%; height:min(420px,52vw); object-fit:cover; background:#111;
+}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 10px}
+.badge{
+  display:inline-flex; align-items:center;
+  padding:5px 10px; border-radius:999px;
+  border:1px solid #333; background:#141414;
+  font-size:11px; font-weight:600; color:#cfcfcf;
+}
+.badge.ok{border-color:#2a4a2a;color:#b6e3b6;background:#0f1a0f}
+.price-lg{
+  font-size:28px; font-weight:700; letter-spacing:-0.5px;
+  margin:10px 0 14px; font-family:"Space Grotesk",sans-serif;
+}
+.desc{color:#b0b0b0; font-size:14px; line-height:1.65; margin-bottom:18px}
+.features{list-style:none; display:grid; gap:8px; margin:0 0 8px}
+.features li{
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px; border-radius:12px;
+  border:1px solid #222; background:#0c0c0c;
+  font-size:13px; color:#ddd;
+}
+.features li::before{content:"✓"; color:#cfcfcf; font-weight:700}
+
+.meta-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  margin-top:16px;
+}
+.meta-item{
+  padding:12px; border-radius:12px; border:1px solid #222; background:#0c0c0c;
+}
+.meta-item span{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#777;margin-bottom:4px}
+.meta-item strong{font-size:13px;font-weight:600}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;color:#9a9a9a;font-weight:600}
+.field input,.field textarea{
+  width:100%; padding:12px 14px; border-radius:12px;
+  border:1px solid #2a2a2a; background:#0a0a0a; color:#eee; outline:none;
+}
+.field input:focus,.field textarea:focus{border-color:#555}
+.summary-row{
+  display:flex; justify-content:space-between; gap:12px;
+  padding:10px 0; border-bottom:1px solid #1c1c1c; font-size:13px; color:#9a9a9a;
+}
+.summary-row strong{color:#eee;font-weight:600;text-align:right}
+.total{
+  display:flex; justify-content:space-between; align-items:center;
+  margin:14px 0 18px; font-size:18px; font-weight:700;
+}
+.payment{
+  border:1px solid #2a2a2a; border-radius:14px; padding:14px;
+  background:#0c0c0c; margin-bottom:14px;
+}
+.payment h3{font-size:13px;margin-bottom:8px}
+.payment-line{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;color:#9a9a9a}
+.payment-line b{color:#fff}
+.btn{
+  width:100%; height:48px; border:0; border-radius:12px;
+  background:#f2f2f2; color:#111; font-weight:700; font-size:14px; margin-bottom:8px;
+}
+.btn.secondary{background:transparent;border:1px solid #333;color:#eee}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.status{margin-top:10px;font-size:12px;color:#b6e3b6;display:none}
+.status.show{display:block}
+.empty-box{text-align:center;padding:60px 20px;color:#888}
+.notice{
+  display:flex; gap:10px; align-items:flex-start;
+  padding:12px; border-radius:12px; border:1px solid #2a2a2a;
+  background:#0c0c0c; font-size:12px; color:#9a9a9a; margin-top:8px;
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="index.html">
+    <strong>infixone.pk</strong>
+    <span>PLAY MORE. PAY LESS.</span>
+  </a>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Store</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="page">
+  <a class="back" id="backLink" href="shop.html">← Back</a>
+  <div class="eyebrow">Gaming account</div>
+  <h1 id="pageTitle">Account details</h1>
+
+  <div id="emptyState" class="panel empty-box" style="display:none">
+    <h2>Account not found</h2>
+    <p>This listing may have been sold or removed.</p>
+    <a class="btn" style="display:inline-flex;align-items:center;justify-content:center;max-width:220px;margin:16px auto 0" href="shop.html">Browse store</a>
+  </div>
+
+  <div id="accountLayout" class="layout" style="display:none">
+    <section class="panel">
+      <img id="accImage" class="hero-img" alt="">
+      <div class="panel-body">
+        <div class="badges">
+          <span class="badge" id="accGameBadge">Game</span>
+          <span class="badge ok" id="accStatus">Available</span>
+        </div>
+        <h2 id="accTitle" style="font-size:22px;margin:0 0 4px">Title</h2>
+        <div class="price-lg" id="accPrice">PKR 0</div>
+        <p class="desc" id="accDesc"></p>
+        <h3 style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#888;margin-bottom:10px">Features</h3>
+        <ul class="features" id="accFeatures"></ul>
+        <div class="meta-grid">
+          <div class="meta-item"><span>Platform</span><strong id="accPlatform">—</strong></div>
+          <div class="meta-item"><span>Region</span><strong id="accRegion">—</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="panel-head">
+        <h2>Order this account</h2>
+        <span class="badge" id="orderBadge">INFX</span>
+      </div>
+      <div class="panel-body">
+        <div class="summary-row"><span>Account</span><strong id="sumTitle">—</strong></div>
+        <div class="summary-row"><span>Game</span><strong id="sumGame">—</strong></div>
+        <div class="summary-row"><span>Type</span><strong>Gaming Account</strong></div>
+        <div class="total"><span>Total</span><strong id="sumTotal">PKR 0</strong></div>
+
+        <div class="field">
+          <label for="customerName">Your name</label>
+          <input id="customerName" placeholder="Full name" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="customerContact">WhatsApp / Phone</label>
+          <input id="customerContact" placeholder="+92 ..." autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="customerEmail">Email (optional)</label>
+          <input id="customerEmail" type="email" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="customerNote">Note (optional)</label>
+          <textarea id="customerNote" rows="2" placeholder="Any special request..."></textarea>
+        </div>
+
+        <div class="payment">
+          <h3>SadaPay</h3>
+          <div class="payment-line"><span>Number</span><b>03091847477</b></div>
+          <div class="payment-line"><span>Name</span><b>Kashif Ahmed Khan</b></div>
+          <div class="payment-line" style="margin-top:6px"><span>Binance ID</span><b>1123283516</b></div>
+        </div>
+
+        <button class="btn" id="whatsappBtn" type="button">Confirm via WhatsApp</button>
+        <button class="btn secondary" id="copyBtn" type="button">Copy payment details</button>
+        <div class="notice">After payment, send your Order ID and screenshot on WhatsApp for delivery.</div>
+        <div class="status" id="status"></div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(location.search);
+  const gameName = params.get('game');
+  const accId = params.get('id');
+  const game = (typeof getGame === 'function') ? getGame(gameName) : null;
+  const list = (typeof ACCOUNTS !== 'undefined' && game) ? (ACCOUNTS[game[0]] || []) : [];
+  const acc = list.find(a => a.id === accId) || list[0];
+
+  const empty = document.getElementById('emptyState');
+  const layout = document.getElementById('accountLayout');
+
+  if (!game || !acc) {
+    empty.style.display = 'block';
+    return;
+  }
+
+  layout.style.display = 'grid';
+  document.title = acc.title + ' — infixone.pk';
+  document.getElementById('pageTitle').textContent = acc.title;
+  document.getElementById('backLink').href = 'select.html?game=' + encodeURIComponent(game[0]);
+
+  const img = document.getElementById('accImage');
+  img.src = acc.image || game[5];
+  img.alt = acc.title;
+  img.onerror = () => { img.src = game[5]; };
+
+  document.getElementById('accGameBadge').textContent = game[0];
+  document.getElementById('accStatus').textContent = acc.available === false ? 'Sold' : 'Available';
+  document.getElementById('accTitle').textContent = acc.title;
+  document.getElementById('accPrice').textContent = fmt(acc.price);
+  document.getElementById('accDesc').textContent = acc.description || '';
+  document.getElementById('accPlatform').textContent = acc.platform || '—';
+  document.getElementById('accRegion').textContent = acc.region || '—';
+
+  const feats = document.getElementById('accFeatures');
+  feats.innerHTML = (acc.features || []).map(f => `<li>${esc(f)}</li>`).join('') || '<li>Details on request</li>';
+
+  const orderId = 'INFX-' + Math.floor(100000 + Math.random() * 900000);
+  document.getElementById('orderBadge').textContent = orderId;
+  document.getElementById('sumTitle').textContent = acc.title;
+  document.getElementById('sumGame').textContent = game[0];
+  document.getElementById('sumTotal').textContent = fmt(acc.price);
+
+  function status(t) {
+    const e = document.getElementById('status');
+    e.textContent = t;
+    e.classList.add('show');
+  }
+
+  document.getElementById('copyBtn').onclick = async () => {
+    const t = 'SadaPay: 03091847477\nAccount Name: Kashif Ahmed Khan\nBinance ID: 1123283516';
+    try { await navigator.clipboard.writeText(t); status('Payment details copied.'); }
+    catch { status(t); }
+  };
+
+  document.getElementById('whatsappBtn').onclick = () => {
+    const name = document.getElementById('customerName').value.trim();
+    const contact = document.getElementById('customerContact').value.trim();
+    const email = document.getElementById('customerEmail').value.trim();
+    const note = document.getElementById('customerNote').value.trim();
+    if (!name || !contact) {
+      status('Please enter your name and WhatsApp number.');
+      return;
+    }
+    const msg = 'NEW ACCOUNT ORDER — infixone.pk%0A%0A' +
+      'Order: ' + encodeURIComponent(orderId) + '%0A' +
+      'Game: ' + encodeURIComponent(game[0]) + '%0A' +
+      'Account: ' + encodeURIComponent(acc.title) + '%0A' +
+      'Total: ' + encodeURIComponent(fmt(acc.price)) + '%0A' +
+      'Name: ' + encodeURIComponent(name) + '%0A' +
+      'Contact: ' + encodeURIComponent(contact) +
+      (email ? '%0AEmail: ' + encodeURIComponent(email) : '') +
+      (note ? '%0ANote: ' + encodeURIComponent(note) : '') +
+      '%0A%0APayment: SadaPay 03091847477%0AAccount: Kashif Ahmed Khan';
+    window.open('https://wa.me/923350453387?text=' + msg, '_blank', 'noopener,noreferrer');
+  };
+});
+</script>
+</body>
+</html>
